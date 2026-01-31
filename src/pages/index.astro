@@ -1,0 +1,121 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout title="Ayberk Savas">
+  <main>
+    <nav>
+      <a href="/blog" class="nav-link">Blog</a>
+      <a href="/contact" class="nav-link">Contact</a>
+      <a href="/" class="logo">Ayberk Savas</a>
+      <a href="/portfolio" class="nav-link">Portfolio</a>
+      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+        <span class="toggle-knob"></span>
+      </button>
+    </nav>
+  </main>
+</Layout>
+
+<script>
+  const toggle = document.getElementById("theme-toggle")!;
+  const knob = toggle.querySelector(".toggle-knob") as HTMLElement;
+
+  function applyTheme(theme: string) {
+    document.documentElement.setAttribute("data-theme", theme);
+    localStorage.setItem("theme", theme);
+    if (theme === "dark") {
+      knob.style.transform = "translateX(24px)";
+    } else {
+      knob.style.transform = "translateX(0)";
+    }
+  }
+
+  // Apply on load
+  applyTheme(document.documentElement.getAttribute("data-theme") || "light");
+
+  toggle.addEventListener("click", () => {
+    const current = document.documentElement.getAttribute("data-theme");
+    applyTheme(current === "light" ? "dark" : "light");
+  });
+</script>
+
+<style>
+  main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    padding: 0 5rem;
+  }
+
+  nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .nav-link {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 1.15rem;
+    font-weight: 400;
+    color: var(--text);
+    text-decoration: none;
+    transition: color var(--transition);
+  }
+
+  .nav-link:hover {
+    color: var(--copper);
+  }
+
+  .logo {
+    font-family: "Playfair Display", Georgia, serif;
+    font-size: 2.8rem;
+    font-weight: 500;
+    font-style: italic;
+    color: var(--copper);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .theme-toggle {
+    position: relative;
+    width: 52px;
+    height: 28px;
+    border-radius: 14px;
+    border: none;
+    cursor: pointer;
+    background-color: var(--toggle-bg);
+    transition: background-color var(--transition);
+    flex-shrink: 0;
+  }
+
+  .toggle-knob {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background-color: var(--toggle-knob);
+    transition: transform var(--transition), background-color var(--transition);
+  }
+
+
+  @media (max-width: 768px) {
+    nav {
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .logo {
+      font-size: 2rem;
+      order: -1;
+    }
+
+    .nav-left,
+    .nav-right {
+      gap: 2rem;
+    }
+  }
+</style>
